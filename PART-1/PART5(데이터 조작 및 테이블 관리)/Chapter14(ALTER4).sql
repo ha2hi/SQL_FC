@@ -1,0 +1,45 @@
+--Chapter14 컬럼 제거
+CREATE TABLE PUBLISHERS (
+PUBLISHER_ID SERIAL PRIMARY KEY
+, NAME VARCHAR NOT NULL);
+
+CREATE TABLE CATEGORIES (
+CATEGORY_ID SERIAL PRIMARY KEY
+, NAME VARCHAR NOT NULL);
+
+CREATE TABLE BOOKS (
+BOOK_ID SERIAL PRIMARY KEY
+, TITLE VARCHAR NOT NULL
+, ISBN VARCHAR NOT NULL
+, PUBLISHED_DATE DATE NOT NULL
+, DESCRIPTION VARCHAR
+, CATEGORY_ID INT NOT NULL
+, PUBLISHER_ID INT NOT NULL
+, FOREIGN KEY (PUBLISHER_ID) REFERENCES PUBLISHERS 
+(PUBLISHER_ID)
+, FOREIGN KEY (CATEGORY_ID) REFERENCES CATEGORIES 
+(CATEGORY_ID)
+);
+
+CREATE VIEW BOOK_INFO AS SELECT
+B.BOOK_ID,
+B.TITLE,
+B.ISBN,
+B.PUBLISHED_DATE,
+P.NAME
+FROM
+BOOKS B
+, PUBLISHERS P 
+WHERE P.PUBLISHER_ID = 
+B.PUBLISHER_ID
+ORDER BY B.TITLE;
+----------------------------------------------------------------------
+alter table BOOKS drop column CATEGORY_ID;--FK날라간다.
+alter table BOOKS drop column publisher_ID; --view때문에 지울 수 없다.
+
+alter table BOOKS drop column publisher_ID cascade;
+select * from book_info;
+----------------------------------------------------------------------
+alter table books
+drop column isbn,
+drop column description;
