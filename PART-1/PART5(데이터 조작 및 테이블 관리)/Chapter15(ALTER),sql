@@ -1,0 +1,30 @@
+--Chapter15 컬럼 데이터 타입 변경
+CREATE TABLE ASSETS (
+ID SERIAL PRIMARY KEY
+, NAME TEXT NOT NULL
+, ASSET_NO VARCHAR(10) NOT NULL
+, DESCRIPTION TEXT
+, LOCATION TEXT
+, ACQUIRED_DATE DATE NOT NULL
+);
+
+INSERT INTO ASSETS (
+NAME
+, ASSET_NO
+, LOCATION
+, ACQUIRED_DATE
+)
+VALUES
+('Server', '10001', 'Server room', '2017-01-01'), 
+('UPS', '10002', 'Server room', '2017-01-02');
+COMMIT;
+select * from assets;
+---------------------------------------------------------------------
+alter table assets alter column name type varchar(50);
+alter table assets 
+	alter column location type varchar(100),
+	alter column description type varchar(500);
+
+alter table assets alter column asset_no type int; --이렇게하면 에러남
+alter table assets 
+	alter column asset_no type int using asset_no::integer;
