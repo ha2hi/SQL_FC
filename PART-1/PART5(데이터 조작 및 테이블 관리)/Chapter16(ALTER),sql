@@ -1,0 +1,39 @@
+--Chapter16 컬럼 이름 변경
+CREATE TABLE CUSTOMER_GROUPS (
+ID SERIAL PRIMARY KEY
+, NAME VARCHAR NOT NULL
+);
+
+CREATE TABLE CUSTOMERS (
+ID SERIAL PRIMARY KEY
+, NAME VARCHAR NOT NULL
+, PHONE VARCHAR NOT NULL
+, EMAIL VARCHAR
+, GROUP_ID INT
+, FOREIGN KEY (GROUP_ID) REFERENCES CUSTOMER_GROUPS 
+(ID)
+);
+
+CREATE VIEW CUSTOMER_DATA 
+AS SELECT
+C.ID,
+C.NAME,
+G.NAME CUSTOMER_GROUP
+FROM
+CUSTOMERS C
+, CUSTOMER_GROUPS G 
+WHERE G.ID = C.GROUP_ID
+
+select * from CUSTOMER_DATA;
+----------------------------------------------------------------------------------
+alter table customers
+rename column email to contact_email;
+
+select * from customers;
+--------------------------------------------------------------------------------------
+alter table CUSTOMER_GROUPS
+rename column name to group_name;
+
+select * from CUSTOMER_GROUPS;
+------------------------------------------------------------------------------------
+select * from CUSTOMER_DATA; --customers테이블과 CUSTOMER_GROUPS테이블의 컬럼명을 변경하고 뷰를 보면 자동으로 바뀜
